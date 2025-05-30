@@ -12,20 +12,24 @@ public class Main {
     public static void main(String[] args) {
         String apiKey = System.getenv("OPENWEATHERMAP_API_KEY");
         if (apiKey == null || apiKey.isEmpty()) {
-            System.out.println("Ошибка: API-ключ OPENWEATHERMAP_API_KEY не найден или пуст в переменных окружения.\nПожалуйста, проверьте настройки конфигурации запуска в IntelliJ IDEA.");
+            System.out.println("""
+                    Ошибка: API-ключ OPENWEATHERMAP_API_KEY не найден или пуст в переменных окружения.
+                    Пожалуйста, проверьте настройки конфигурации запуска в IntelliJ IDEA.""");
             return;
-        } else {
-            //System.out.println("API-ключ успешно загружен: " + apiKey);
         }
+
+
 
         System.out.println("Введите название города");
         Scanner console = new Scanner(System.in);
         String city = console.nextLine();
-        //System.out.println("Вы ввели город" + " " + city);
         console.close();
 
-        String requestUrl = "http://api.openweathermap.org/data/2.5/weather?q=" + city + "&appid=" + apiKey + "&units=metric";
-        //System.out.println(requestUrl);
+        String requestUrl = "http://api.openweathermap.org/data/2.5/weather?q="
+                + city
+                + "&appid="
+                + apiKey
+                + "&units=metric";
 
         HttpClient httpClient = HttpClient.newHttpClient();
         HttpRequest httpRequest = HttpRequest.newBuilder()
@@ -37,12 +41,10 @@ public class Main {
             HttpResponse<String> httpResponse = httpClient.send(httpRequest, HttpResponse.BodyHandlers.ofString());
 
             int statusCode = httpResponse.statusCode();
-            //System.out.println("Код состояния ответа: " + statusCode);
 
             if (statusCode == 200) {
                 String responseBody = httpResponse.body();
-                //System.out.println("Тело ответа (JSON):");
-                //System.out.println(responseBody);
+
                 try {
                     JSONObject jsonObject = new JSONObject(responseBody);
                     JSONObject mainObject = jsonObject.getJSONObject("main");
