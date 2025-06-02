@@ -31,11 +31,13 @@ public class Main {
                 + apiKey
                 + "&units=metric";
 
-        HttpClient httpClient = HttpClient.newHttpClient();
-        HttpRequest httpRequest = HttpRequest.newBuilder()
-                .uri(URI.create(requestUrl))
-                .GET()
-                .build();
+        HttpClient httpClient = HttpClient.newHttpClient();//класс для отправки http запросов
+        // и получения ответов
+        HttpRequest httpRequest = HttpRequest.newBuilder()//класс для настройки запроса
+                .uri(URI.create(requestUrl))//из строки requestUrl создаем URI
+                .GET() //метод для запроса даных с сервера
+                .build(); // метод возвращает готовый объект-запрос
+        // и присваивает его переменной httpRequest
 
         try {
             HttpResponse<String> httpResponse = httpClient.send(httpRequest, HttpResponse.BodyHandlers.ofString());
